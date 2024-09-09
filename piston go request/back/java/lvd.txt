@@ -1,0 +1,106 @@
+header :=`import java.util.*;               
+import java.math.*;               
+import java.text.*;               
+import java.util.function.*;      
+import java.util.regex.*;        
+import java.util.stream.*;     
+
+
+public class TwoSum {`
+
+    // Function to find the indices of the two numbers that add up to the target
+    func_c:=`public static ArrayList<Integer> twoSum(List<Integer> nums, int target) {
+        Map<Integer, Integer> numMap = new HashMap<>();
+        for (int i = 0; i < nums.size(); i++) {
+            int complement = target - nums.get(i);
+            if (numMap.containsKey(complement)) {
+                return new ArrayList<>(Arrays.asList(numMap.get(complement), i));
+            }
+            numMap.put(nums.get(i), i);
+        }
+        return new ArrayList<>();
+    }`
+
+    // Function to calculate time and space complexity
+    complexity_c:=`public static Pair<Double, Long> calculateComplexity(List<Integer> nums, int target) {
+        long startTime = System.nanoTime();
+        
+        ArrayList<Integer> result = twoSum(nums, target);
+        
+        long endTime = System.nanoTime();
+        double timeComplexity = (endTime - startTime) / 1e6; // convert to milliseconds
+        
+        // Space complexity (in bytes)
+        long spaceComplexity = (Integer.BYTES * nums.size()) + (Integer.BYTES * nums.size()) + (nums.size() * 32); // Approximate size of HashMap
+        
+        return new Pair<>(timeComplexity, spaceComplexity);
+    }
+
+    public static void main(String[] args) {`
+
+
+	// test_c:=`List<List<Integer>> nums = Arrays.asList(
+    //         Arrays.asList(2, 7, 11, 15),
+    //         Arrays.asList(3, 2, 4),
+    //         Arrays.asList(1, 5, 5),
+    //         Arrays.asList(1, 2, 3, 4, 5),
+    //         Arrays.asList(5, 3, 5, 7)
+    //     );
+
+    //     List<Integer> targets = Arrays.asList(9, 6, 10, 9, 10);`
+
+
+	test_c:= processJSON(jsonInput1,0)+processJSON(jsonInput2,1)
+
+
+
+
+
+
+    main_c:=`List<ArrayList<Integer>> results = new ArrayList<>();
+        List<Pair<Double, Long>> complexities = new ArrayList<>();
+
+        for (int i = 0; i < nums.size(); i++) {
+            int target = targets.get(i);
+            Pair<Double, Long> complexity = calculateComplexity(nums.get(i), target);
+            complexities.add(complexity);
+            
+            ArrayList<Integer> result = twoSum(nums.get(i), target);
+            results.add(result);
+            
+            System.out.println("Test case " + (i + 1) + ":");
+            System.out.print("Input: num = [");
+            for (int j = 0; j < nums.get(i).size(); j++) {
+                System.out.print(nums.get(i).get(j));
+                if (j < nums.get(i).size() - 1) System.out.print(",");
+            }
+            System.out.println("], target = " + target);
+            
+            System.out.print("Output: " + result);
+            System.out.println();
+            
+            System.out.println("Time complexity: " + complexity.getKey() + " ms");
+            System.out.println("Space complexity: " + complexity.getValue() + " bytes\n");
+        }
+    }
+}
+
+// Utility class to store pair of values (like C++ pair)
+class Pair<K, V> {
+    private final K key;
+    private final V value;
+
+    public Pair(K key, V value) {
+        this.key = key;
+        this.value = value;
+    }
+
+    public K getKey() { return key; }
+    public V getValue() { return value; }
+}
+
+`
+
+
+	code := header+func_c+complexity_c+test_c+main_c;
+    
